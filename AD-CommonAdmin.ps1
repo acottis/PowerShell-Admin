@@ -1,14 +1,12 @@
 Import-Module -Name ActiveDirectory -Function Set-ADAccountPassword, Set-ADuser, Unlock-ADAccount
 
-. ./Secrets.ps1
-
 Write-host "Functions: Reset-Password, Unlock-ADAaccount are available" -ForegroundColor Green
 
 function Reset-Password{
 
     param (
         [string]$identity = $(Read-Host "Identity"),
-        [string]$password = $password
+        [string]$password = $(Read-Host "Password")
     )
 
     $ADuser =  Get-ADUser $identity
