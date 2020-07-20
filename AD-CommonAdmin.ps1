@@ -1,6 +1,4 @@
-Import-Module -Name ActiveDirectory -Function Set-ADAccountPassword, Set-ADuser, Unlock-ADAccount
-
-Write-host "Functions: Reset-Password, Unlock-ADAaccount are available" -ForegroundColor Green
+Write-host "Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, Connect-365 are available" -ForegroundColor Green
 
 function Reset-Password{
 
@@ -30,4 +28,35 @@ function Reset-Password{
             }
           
         }
+}
+
+function Send-Clock{
+    py.exe C:\DEV\Python\Clock\clock.py
+}
+
+
+function Connect-365{
+
+    $adminUPN=$SECRETadminUPN
+    $orgName=$SECRETorgName
+    
+    ##Azure Active Directory
+    Connect-AzureAD -AccountId $adminUPN
+    
+    ##SharePoint Online
+    #Connect-SPOService -Url https://$orgName-admin.sharepoint.com
+    
+    ##Skype for Business Online
+    #$sfboSession = New-CsOnlineSession -UserName adminUPN
+    #Import-PSSession $sfboSession
+    
+    ##Exchange Online
+    Connect-ExchangeOnline -UserPrincipalName $adminUPN -ShowProgress $true
+    
+    ##Teams
+    #Import-Module MicrosoftTeams  
+    Connect-MicrosoftTeams -AccountId $adminUPN
+
+    Write-Host "Useful Functions: Get-EXOMailbox, Get-EXOMailboxPermission, " -ForegroundColor Green
+
 }
