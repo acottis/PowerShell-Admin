@@ -1,4 +1,4 @@
-Write-host "Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, New-ServiceAccount, Connect-365 are available" -ForegroundColor Green
+Write-host "Useful Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, New-ServiceAccount, Connect-365" -ForegroundColor Green
 
 function Reset-Password{
 
@@ -57,7 +57,7 @@ function Connect-365{
     #Import-Module MicrosoftTeams  
     Connect-MicrosoftTeams -AccountId $adminUPN
 
-    Write-Host "Useful Functions: Get-EXOMailbox, Get-EXOMailboxPermission, " -ForegroundColor Green
+    Write-Host "Useful Functions: Get-EXOMailbox, Get-EXOMailboxPermission" -ForegroundColor Green
 
 }
 
@@ -79,5 +79,9 @@ function New-ServceAccount{
     Install-ADServiceAccount -Identity $name
     Test-ADServiceAccount $name
     Exit-PSSession
+
+    Write-Host "Still need to add permissions to the service account" -ForegroundColor Green
+    Write-Host "The below command is to update a scheduled task" -ForegroundColor Green
+    Write-Host "schtasks /Change /TN 'TASK-NAME' /RU $name /RP " -ForegroundColor Green
 
 }
