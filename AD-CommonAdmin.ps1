@@ -1,4 +1,4 @@
-Write-host "Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, Connect-365 are available" -ForegroundColor Green
+Write-host "Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, New-ServiceAccount, Connect-365 are available" -ForegroundColor Green
 
 function Reset-Password{
 
@@ -58,5 +58,26 @@ function Connect-365{
     Connect-MicrosoftTeams -AccountId $adminUPN
 
     Write-Host "Useful Functions: Get-EXOMailbox, Get-EXOMailboxPermission, " -ForegroundColor Green
+
+}
+
+function New-ServceAccount{
+
+    param (
+        [string]$computer = $(Read-Host "Which computer is the service account for?"),
+        [string]$name = $(Read-Host "What is the service account name?")
+    )
+
+    New-ADServiceAccount -Name $name -RestrictToSingleComputer
+    Add-ADComputerServiceAccount -Identity $computer -ServiceAccount $name
+
+    New-ADServiceAccount -Name $name -RestrictToSingleComputer
+    Add-ADComputerServiceAccount -Identity $computer -ServiceAccount $name
+
+    Enter-PSSession $computer
+    Add-WindowsFeature RSAT-AD-PowerShell
+    Install-ADServiceAccount -Identity $name
+    Test-ADServiceAccount $name
+    Exit-PSSession
 
 }
