@@ -38,12 +38,12 @@ function Send-ADSync {
     param (
         [string]$computer = $(Read-Host "Computer name with AADConnect installed")
     )
+    
+    Invoke-Command -ComputerName $computer -ScriptBlock {
+    Import-Module ADSync;
+    Start-ADSyncSyncCycle -PolicyType Delta;
+    }
 
-    Enter-PSSession $computer
-
-    Import-Module ADSync
-
-    Start-ADSyncSyncCycle -PolicyType Delta
 }
 
 function Connect-365 {
