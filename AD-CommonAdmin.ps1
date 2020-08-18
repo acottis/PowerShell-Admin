@@ -1,4 +1,4 @@
-Write-host "Useful Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, Send-Logoff, New-ServiceAccount, Connect-365" -ForegroundColor Green
+Write-host "Useful Functions: Send-Clock, Reset-Password, Unlock-ADAaccount, Send-Logoff, Send-ADSync New-ServiceAccount, Connect-365" -ForegroundColor Green
 
 function Reset-Password {
 
@@ -33,6 +33,18 @@ function Send-Clock {
     py.exe C:\DEV\Python\Clock\clock.py
 }
 
+function Send-ADSync {
+
+    param (
+        [string]$computer = $(Read-Host "Computer name with AADConnect installed")
+    )
+
+    Enter-PSSession $computer
+
+    Import-Module ADSync
+
+    Start-ADSyncSyncCycle -PolicyType Delta
+}
 
 function Connect-365 {
 
